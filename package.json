@@ -1,0 +1,11 @@
+{
+  "name": "support-ticket-triage",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sort support tickets and reviews by topic and urgency and draft a reply for each",
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test \"test/*.test.js\"",
+    "sample": "node tools/embed-sample.js"
+  }
+}

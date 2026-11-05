@@ -1,0 +1,102 @@
+id,date,channel,customer,rating,subject,message
+T-2499,2026-10-27,Email,Grace Okafor,,Order #55120 not delivered,My order #55120 has not arrived and tracking stopped updating.
+T-2404,2026-10-28,Chat,Emma Andersen,,Coupon did not apply,My welcome coupon did not apply to order #46160. Could you adjust the charge?
+T-2414,2026-10-28,Email,Kenji Hughes,,Where is my order?,Order #42962 was supposed to arrive last Thursday. Tracking has not updated in five days.
+T-2429,2026-10-28,Email,Leo Moreau,,Space heater stopped working,My space heater stopped working after two weeks. It does not turn on anymore. Order #45535.
+T-2432,2026-10-28,Email,Ava Barnes,,Leaking,The space heater is leaking water from the base every time I use it.
+T-2437,2026-10-28,Email,Felix Andersen,,Leaking,The stick vacuum is leaking water from the base every time I use it.
+T-2450,2026-10-28,Email,Mia Lindqvist,,Cannot log in,I cannot log in to my account. The password reset link never arrives.
+T-2453,2026-10-28,Phone,Aria Novak,,Checkout error,Checkout gives me an error after I enter the card details. Tried three times.
+T-2459,2026-10-28,Email,Stella Price,,Cancel subscription,I want to cancel the filter subscription for my humidifier. Please stop the next shipment.
+T-2463,2026-10-28,Phone,Lily Barnes,,Feature request for the app,Could you add an option in the app to pick a delivery time slot? It would help a lot.
+T-2464,2026-10-28,Chat,Amara Andersen,,Feature request for the app,Could you add an option in the app to pick a delivery time slot? It would help a lot.
+T-2467,2026-10-28,Email,Ingrid Brooks,,Store opening hours,Do you have a physical store where I can see the rice cooker before buying?
+T-2402,2026-10-30,Chat,Henry Nguyen,,Refund not received,I returned the humidifier two weeks ago and the refund still has not reached my card. Order 56589.
+T-2420,2026-10-30,Email,Felix Kim,,Where is my order?,Order #53080 was supposed to arrive last Thursday. Tracking has not updated in five days.
+T-2439,2026-10-30,Chat,Mason Ross,,Exchange for another model,Can I exchange my kettle for the larger model? Order 48543.
+T-2446,2026-10-30,Email,Hannah Tanaka,,Account locked,My account is locked after too many attempts. I need to see my order history.
+T-2451,2026-10-30,Email,Chloe Foster,,Page not loading,The product page for the hand mixer keeps loading and never shows the price.
+T-2462,2026-10-30,Chat,Diego Andersen,,Feature request for the app,Could you add an option in the app to pick a delivery time slot? It would help a lot.
+T-2470,2026-10-31,Store review,Sofia Price,5,,Love it. Excellent quality for the price.
+T-2474,2026-10-31,Store review,Mia Ross,5,,"Amazing customer service, they replaced my rice cooker in two days. Thank you!"
+T-2476,2026-10-31,App review,Ruby Andersen,5,,"Amazing customer service, they replaced my stick vacuum in two days. Thank you!"
+T-2484,2026-10-31,Store review,Mia Walker,3,,It is okay. The air fryer works but feels cheaper than in the photos.
+T-2487,2026-10-31,Store review,Hannah Ward,2,,Arrived late and the box was damaged.
+T-2491,2026-10-31,App review,Aaron Haddad,1,,DO NOT BUY. The air fryer started to smoke the first time I used it!!!
+T-2500,2026-10-31,Chat,Grace Okafor,,Following up,"Following up on order 55120. Still nothing, no reply to my email either."
+T-2403,2026-11-01,Chat,Olivia Okafor,,Wrong price charged,The blender was listed at a discount but I paid the full price at checkout. Can you refund the difference? Order #43971
+T-2411,2026-11-01,Email,Maya Tanaka,,Refund not received,I returned the desk lamp two weeks ago and the refund still has not reached my card. Order 42714.
+T-2415,2026-11-01,Email,Sofia Ortiz,,Package marked delivered but not here,The tracking says my package was delivered yesterday but there is nothing at my door. Order 57674.
+T-2422,2026-11-01,Email,Tomas Foster,,Package marked delivered but not here,The tracking says my package was delivered yesterday but there is nothing at my door. Order 47219.
+T-2424,2026-11-01,Email,Aaron Reyes,,Where is my order?,Order #49361 was supposed to arrive last Thursday. Tracking has not updated in five days.
+T-2436,2026-11-01,Chat,Mason Reyes,,Air fryer stopped working,My air fryer stopped working after two weeks. It does not turn on anymore. Order #43970.
+T-2454,2026-11-01,Email,Lily Patel,,Page not loading,The product page for the rice cooker keeps loading and never shows the price.
+T-2457,2026-11-01,Email,Isaac Choi,,Cancel my order,Please cancel order #45046. I ordered the wrong air fryer.
+T-2418,2026-11-02,Email,Emma Russo,,Package marked delivered but not here,The tracking says my package was delivered yesterday but there is nothing at my door. Order 55468.
+T-2430,2026-11-02,Email,Priya Mendes,,Arrived damaged,"The rice cooker arrived damaged, the lid is cracked and one part is missing. Order 42149."
+T-2433,2026-11-02,Chat,Sofia Kowalski,,Leaking,The electric fan is leaking water from the base every time I use it.
+T-2456,2026-11-02,Phone,Leo Barnes,,App crashes,The app crashes every time I open my orders page. Using the latest update.
+T-2480,2026-11-02,Store review,Isaac Kim,4,,"Good air fryer, does the job. Packaging could be better."
+T-2481,2026-11-02,Store review,Ruby Novak,4,,"Good air fryer, does the job. Packaging could be better."
+T-2486,2026-11-02,Store review,Mia Haddad,2,,Disappointed. The blender stopped working after a month and support is slow.
+T-2489,2026-11-02,Store review,Ruby Barnes,2,,Arrived late and the box was damaged.
+T-2492,2026-11-02,Store review,Zoe Reyes,1,,Terrible. The rice cooker broke on day one and nobody answered my emails.
+T-2407,2026-11-03,Chat,Ethan Barnes,,Wrong price charged,The toaster was listed at a discount but I paid the full price at checkout. Can you refund the difference? Order #41150
+T-2416,2026-11-03,Email,Emma Reyes,,Where is my order?,Order #54787 was supposed to arrive last Thursday. Tracking has not updated in five days.
+T-2447,2026-11-03,Email,Olivia Moreau,,Account locked,My account is locked after too many attempts. I need to see my order history.
+T-2471,2026-11-03,Store review,Chloe Ortiz,5,,"Amazing customer service, they replaced my space heater in two days. Thank you!"
+T-2478,2026-11-03,App review,Omar Byrne,4,,"Good humidifier, does the job. Packaging could be better."
+T-2482,2026-11-03,App review,Noah Nguyen,3,,It is okay. The hand mixer works but feels cheaper than in the photos.
+T-2490,2026-11-03,App review,Grace Nguyen,1,,DO NOT BUY. The desk lamp started to smoke the first time I used it!!!
+T-2496,2026-11-03,Email,Lily Reyes,,Third time asking for my refund,This is the THIRD time I am writing. I was CHARGED TWICE for order #42624 and still NO REFUND. If this is not fixed today I will file a chargeback and contact consumer protection.
+T-2401,2026-11-04,Email,Amara Byrne,,Coupon did not apply,My welcome coupon did not apply to order #56258. Could you adjust the charge?
+T-2406,2026-11-04,Chat,Chloe Fischer,,Coupon did not apply,My welcome coupon did not apply to order #55435. Could you adjust the charge?
+T-2408,2026-11-04,Chat,Zoe Price,,Coupon did not apply,My welcome coupon did not apply to order #43726. Could you adjust the charge?
+T-2413,2026-11-04,Email,Mason Kim,,Wrong price charged,The space heater was listed at a discount but I paid the full price at checkout. Can you refund the difference? Order #41496
+T-2419,2026-11-04,Email,Ethan Foster,,Late delivery,My stick vacuum is late. I needed it for this weekend. Can you check with the courier? Order #43405
+T-2421,2026-11-04,Chat,Daniel Coleman,,Package marked delivered but not here,The tracking says my package was delivered yesterday but there is nothing at my door. Order 46990.
+T-2425,2026-11-04,Email,Ava Kim,,Change delivery address,I just placed order #58041 and used my old address by mistake. Can you change it before it ships?
+T-2426,2026-11-04,Email,Owen Mendes,,Change delivery address,I just placed order #43429 and used my old address by mistake. Can you change it before it ships?
+T-2428,2026-11-04,Email,Diego Haddad,,Blender stopped working,My blender stopped working after two weeks. It does not turn on anymore. Order #50239.
+T-2440,2026-11-04,Email,Daniel Moreau,,Exchange for another model,Can I exchange my kettle for the larger model? Order 53057.
+T-2441,2026-11-04,Chat,Stella Ross,,Warranty question,Is the blender covered by warranty if the switch breaks? I bought it eight months ago.
+T-2442,2026-11-04,Email,Adrian Kowalski,,Exchange for another model,Can I exchange my stick vacuum for the larger model? Order 49211.
+T-2443,2026-11-04,Chat,Hannah Foster,,Return request,"I would like to return the stick vacuum, it is the wrong color. How do I get a return label? Order #48195"
+T-2445,2026-11-04,Email,Priya Reyes,,Account locked,My account is locked after too many attempts. I need to see my order history.
+T-2448,2026-11-04,Chat,Yara Walker,,Change email address,How do I change the email address on my account?
+T-2449,2026-11-04,Email,Caleb Bennett,,Account locked,My account is locked after too many attempts. I need to see my order history.
+T-2461,2026-11-04,Chat,Leo Moreau,,Cancel subscription,I want to cancel the filter subscription for my kettle. Please stop the next shipment.
+T-2465,2026-11-04,Phone,Owen Coleman,,Bulk order,We are a small office and want to buy 12 units of the coffee grinder. Do you offer business pricing?
+T-2468,2026-11-04,App review,Yara Nguyen,5,,Love it. Excellent quality for the price.
+T-2469,2026-11-04,App review,Felix Ortiz,5,,Love it. Excellent quality for the price.
+T-2472,2026-11-04,App review,Noah Brooks,5,,"Great blender, works perfectly and delivery was fast. Highly recommend."
+T-2473,2026-11-04,App review,Nora Price,5,,"Amazing customer service, they replaced my kettle in two days. Thank you!"
+T-2477,2026-11-04,App review,Ingrid Lindqvist,4,,"Good desk lamp, does the job. Packaging could be better."
+T-2479,2026-11-04,Store review,Hannah Choi,4,,"Good blender, does the job. Packaging could be better."
+T-2483,2026-11-04,App review,Amara Lindqvist,3,,Average. Delivery took longer than promised.
+T-2485,2026-11-04,Store review,Chloe Hughes,3,,It is okay. The toaster works but feels cheaper than in the photos.
+T-2493,2026-11-04,Store review,Ingrid Tanaka,1,,Worst purchase. Charged twice and still no refund.
+T-2494,2026-11-04,Email,Henry Patel,,Space heater sparks,The space heater made sparks from the plug and the outlet is burnt. My kid was in the room. This is dangerous. Order #47777.
+T-2495,2026-11-04,Phone,Mia Walker,,Kettle smoke,"Customer called: kettle started to smoke from the base on first use, they unplugged it. Wants a refund. Order 56362."
+T-2497,2026-11-04,Chat,Owen Moreau,,Still waiting,"I already contacted you last week about my missing package, order #52069. Nobody replied. Where is it?"
+T-2498,2026-11-04,Email,Ingrid Patel,,Unauthorized charge,There is a charge from your store on my card that I did not authorize. I have no order with you. Please explain urgently.
+T-2501,2026-11-04,Email,Grace Okafor,,Order 55120 - third message,Third message about order #55120. I want a refund now.
+T-2405,2026-11-05,Email,Isaac Okafor,,Charged twice for order #42168,"Hi, I was charged twice for order #42168. I can see two payments of the same amount on my card statement. Please refund the duplicate."
+T-2409,2026-11-05,Email,Yara Russo,,Invoice needed,Could you send me an invoice with my company details for order #41974? Thank you.
+T-2410,2026-11-05,Email,Ava Walker,,Coupon did not apply,My welcome coupon did not apply to order #50532. Could you adjust the charge?
+T-2412,2026-11-05,Phone,Caleb Price,,Coupon did not apply,My welcome coupon did not apply to order #47504. Could you adjust the charge?
+T-2417,2026-11-05,Email,Yara Nguyen,,Where is my order?,Order #47137 was supposed to arrive last Thursday. Tracking has not updated in five days.
+T-2423,2026-11-05,Email,Liam Nguyen,,Change delivery address,I just placed order #43572 and used my old address by mistake. Can you change it before it ships?
+T-2427,2026-11-05,Email,Stella Bennett,,Air fryer stopped working,My air fryer stopped working after two weeks. It does not turn on anymore. Order #49820.
+T-2431,2026-11-05,Chat,Ava Ross,,Leaking,The kettle is leaking water from the base every time I use it.
+T-2434,2026-11-05,Email,Ruby Kowalski,,Leaking,The air fryer is leaking water from the base every time I use it.
+T-2435,2026-11-05,Chat,Maya Ward,,Very noisy,"The rice cooker makes a loud grinding noise. Is this normal? Bought it last month, order #41476."
+T-2438,2026-11-05,Email,Ryan Okafor,,Return request,"I would like to return the humidifier, it is the wrong color. How do I get a return label? Order #57860"
+T-2444,2026-11-05,Phone,Olivia Tanaka,,Return request,"I would like to return the toaster, it is the wrong color. How do I get a return label? Order #52493"
+T-2452,2026-11-05,Phone,Priya Novak,,App crashes,The app crashes every time I open my orders page. Using the latest update.
+T-2455,2026-11-05,Email,Felix Foster,,Page not loading,The product page for the stick vacuum keeps loading and never shows the price.
+T-2458,2026-11-05,Phone,Hannah Reyes,,Cancel my order,Please cancel order #58594. I ordered the wrong coffee grinder.
+T-2460,2026-11-05,Email,Owen Kowalski,,Cancel subscription,I want to cancel the filter subscription for my coffee grinder. Please stop the next shipment.
+T-2466,2026-11-05,Email,Ruby Novak,,Bulk order,We are a small office and want to buy 12 units of the rice cooker. Do you offer business pricing?
+T-2475,2026-11-05,Store review,Chloe Tanaka,5,,"Amazing customer service, they replaced my rice cooker in two days. Thank you!"
+T-2488,2026-11-05,Store review,Owen Okafor,2,,Arrived late and the box was damaged.
