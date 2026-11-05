@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support Ticket Triage</title>
+<meta name="description" content="Reads tickets and reviews from a spreadsheet, sorts them by topic and urgency and drafts a reply for each one.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <header>
+    <h1>Support ticket triage</h1>
+    <p class="lede">Reads tickets and reviews from a spreadsheet, sorts them by topic and urgency and drafts a reply
+      for each one. Files are read in your browser and never uploaded.</p>
+  </header>
+
+  <section class="panel" aria-labelledby="files-title">
+    <div class="panel-head">
+      <h2 id="files-title">File</h2>
+      <span class="note" id="loaded"></span>
+    </div>
+    <label class="drop" id="drop">
+      <input type="file" id="file" accept=".csv,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+      <strong>Tickets and reviews (.xlsx or .csv)</strong>
+      <span class="file" data-name>Drop a file or click. Columns: id, date, channel, customer, rating, subject, message.
+        Only message is required.</span>
+    </label>
+    <div class="controls">
+      <label>As of <input type="date" id="as-of"></label>
+      <label>Sign replies as <input type="text" id="team" value="Customer Care" size="16"></label>
+      <button type="button" class="btn" id="use-sample">Use sample file</button>
+      <button type="button" class="btn" id="get-sample">Download sample (.xlsx)</button>
+    </div>
+    <div class="errors" id="errors" role="alert"></div>
+  </section>
+
+  <section class="tiles" id="kpis" aria-label="Summary"></section>
+
+  <section class="panel" aria-labelledby="topics-title">
+    <div class="panel-head">
+      <h2 id="topics-title">Topics by urgency</h2>
+      <span class="note">Click a topic to filter the queue.</span>
+    </div>
+    <div class="legend" id="legend"></div>
+    <div id="topics-chart" class="chart-wrap"></div>
+  </section>
+
+  <div class="work">
+    <section class="panel" aria-labelledby="queue-title">
+      <div class="panel-head">
+        <h2 id="queue-title">Queue</h2>
+        <button type="button" class="btn" id="export">Export CSV</button>
+      </div>
+      <div class="filters">
+        <div class="seg" id="level-filter" role="group" aria-label="Urgency"></div>
+        <select id="topic-filter" aria-label="Topic"></select>
+        <input type="search" id="search" placeholder="Search customer or text" aria-label="Search">
+      </div>
+      <p class="note" id="queue-count"></p>
+      <div class="table-wrap queue"><table id="queue"></table></div>
+    </section>
+
+    <section class="panel detail" aria-labelledby="detail-title" id="detail">
+      <h2 id="detail-title">Message</h2>
+      <p class="note">Pick a message in the queue.</p>
+    </section>
+  </div>
+
+  <section class="panel" aria-labelledby="rules-title">
+    <details>
+      <summary><strong id="rules-title">How urgency is scored</strong></summary>
+      <ul class="rules">
+        <li>Safety words (smoke, sparks, burn, shock, injury) make it critical straight away.</li>
+        <li>Threat to escalate (chargeback, lawyer, consumer protection) +40. Money taken in error (charged twice,
+          unauthorized) +30.</li>
+        <li>Repeat contact (still, again, no reply) +15, and +15 when the same customer has written before.</li>
+        <li>1-star rating +20, 2-star +10, and +10 more when the review is public.</li>
+        <li>Waiting over 2 days +10, over 5 days +20. Asking for urgency or angry tone +10 each.</li>
+        <li>Topic base: cancellation 15, product problem 10, delivery, billing and account 5.</li>
+        <li>Critical from 70 points, high from 40, medium from 15. Praise and suggestions stay low unless something
+          else pushes them up.</li>
+        <li>A message that does not say what it is about ("following up") takes the topic of the same customer's
+          earlier message.</li>
+      </ul>
+    </details>
+  </section>
+
+  <footer>
+    <p>Sample customers, orders and messages are invented.</p>
+  </footer>
+</main>
+<script src="triage.js"></script>
+<script src="sample-data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
