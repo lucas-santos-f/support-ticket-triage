@@ -1,6 +1,6 @@
-# Support ticket triage
+# TicketSort
 
-Reads customer tickets and reviews from a spreadsheet, sorts them by topic and urgency and drafts a reply for
+Support ticket triage. Reads customer tickets and reviews from a spreadsheet, sorts them by topic and urgency and drafts a reply for
 each one, so the safety report and the third refund request get answered before the thank-you notes.
 
 ![Demo](docs/demo.gif)
