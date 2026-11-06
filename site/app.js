@@ -17,6 +17,19 @@
   const edits = new Map(); // id -> reply text changed by hand
   const filter = { level: 'all', topic: 'all', text: '' };
 
+  const TEMPLATE_KEY = 'ticketsort.templates';
+  const clone = (o) => JSON.parse(JSON.stringify(o));
+  function loadTemplates() {
+    try {
+      const raw = localStorage.getItem(TEMPLATE_KEY);
+      return raw ? T.mergeTemplates(JSON.parse(raw)) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+  let templates = loadTemplates() || clone(T.DEFAULT_TEMPLATES);
+  let draft = clone(templates);
+
   const $ = (id) => document.getElementById(id);
 
   function el(tag, attrs, ...children) {
@@ -101,12 +114,16 @@
     run();
   }
 
+  function team() {
+    return $('team').value.trim() || 'Customer Care';
+  }
+
   function run() {
     if (!source) return;
     const read = T.readItems(source.rows);
     const errors = read.errors;
     $('errors').textContent = errors.length ? errors.slice(0, 5).join(' · ') + (errors.length > 5 ? ` · and ${errors.length - 5} more` : '') : '';
-    result = T.triage(read.items, { asOf: $('as-of').value || null, team: $('team').value.trim() || 'Customer Care' });
+    result = T.triage(read.items, { asOf: $('as-of').value || null, team: team(), templates });
     if (!$('as-of').value) $('as-of').value = result.asOf;
     $('loaded').textContent = `${read.items.length} messages`;
     if (!selected || !result.items.some((i) => i.id === selected)) selected = result.items.length ? result.items[0].id : null;
@@ -283,6 +300,7 @@
   function renderDetail() {
     const box = $('detail');
     const i = result.items.find((x) => x.id === selected);
+    renderPreview();
     if (!i) {
       box.replaceChildren(el('h2', { id: 'detail-title' }, 'Message'), el('p', { class: 'note' }, 'Pick a message in the queue.'));
       return;
@@ -331,8 +349,102 @@
       el('div', { class: 'reply-head' }, el('label', { for: 'reply' }, el('strong', null, 'Suggested reply')),
         i.public ? el('span', { class: 'note' }, 'Public review: short answer, details in private.') : null),
       area,
+      el('p', { class: 'note reply-from' }, `From the reply templates for ${i.topicLabel.toLowerCase()}, ${i.levelLabel.toLowerCase()} urgency. No AI involved.`),
       el('div', { class: 'actions' }, copy, next, reset));
   }
+
+  // ------------------------------------------------------------ reply templates
+
+  const LEVEL_DUE = { critical: 'Critical', high: 'High', medium: 'Medium', low: 'Low (empty: no time promised)' };
+  const GROUPS = {
+    topics: () => T.TOPICS.concat(T.OTHER).map((t) => ({ path: ['topics', t.key], label: t.label })),
+    promise: () => ['critical', 'high', 'medium', 'low'].map((k) => ({ path: ['promise', k], label: LEVEL_DUE[k] })),
+    openings: () => [
+      { path: ['greeting'], label: 'Greeting' },
+      { path: ['safety'], label: 'Opening for a safety risk' },
+      { path: ['repeat'], label: 'Opening for an urgent case the customer has already chased' },
+      { path: ['sorry'], label: 'Opening for other urgent cases' },
+      { path: ['signoff'], label: 'Sign-off' },
+    ],
+    public: () => [
+      { path: ['publicOpening'], label: 'Opening of a public answer' },
+      { path: ['publicSafety'], label: 'Safety line in a public answer' },
+      { path: ['publicAsk'], label: 'Asking to continue in private' },
+      { path: ['publicPraise'], label: 'Answer to a positive public review' },
+      { path: ['publicSignoff'], label: 'Sign-off of a public answer' },
+    ],
+  };
+
+  const getAt = (obj, path) => path.reduce((o, k) => o[k], obj);
+  function setAt(obj, path, value) {
+    path.slice(0, -1).reduce((o, k) => o[k], obj)[path[path.length - 1]] = value;
+  }
+
+  function renderTemplateFields() {
+    const fields = GROUPS[$('tpl-group').value]().map((f) => {
+      const area = el('textarea', { rows: f.path[0] === 'topics' ? 4 : 2, spellcheck: 'true' });
+      area.value = getAt(draft, f.path);
+      area.addEventListener('input', () => {
+        setAt(draft, f.path, area.value);
+        templateState();
+        renderPreview();
+      });
+      return el('label', null, f.label, area);
+    });
+    $('tpl-fields').replaceChildren(...fields);
+  }
+
+  function renderPreview() {
+    const i = result && result.items.find((x) => x.id === selected);
+    $('tpl-for').textContent = i ? `${i.customer || 'No name'} · ${i.topicLabel} · ${i.levelLabel}${i.public ? ' · public review' : ''}` : 'Pick a message in the queue.';
+    $('tpl-preview').textContent = i ? T.suggestReply(i, i, { team: team(), templates: draft }) : '';
+  }
+
+  function templateState() {
+    const changed = JSON.stringify(draft) !== JSON.stringify(templates);
+    const custom = JSON.stringify(templates) !== JSON.stringify(T.DEFAULT_TEMPLATES);
+    $('tpl-state').textContent = changed ? '· unsaved changes' : custom ? '· your templates' : '· default templates';
+  }
+
+  function saveTemplates() {
+    templates = clone(draft);
+    let stored = true;
+    try {
+      if (JSON.stringify(templates) === JSON.stringify(T.DEFAULT_TEMPLATES)) localStorage.removeItem(TEMPLATE_KEY);
+      else localStorage.setItem(TEMPLATE_KEY, JSON.stringify(templates));
+    } catch (e) {
+      stored = false;
+    }
+    run();
+    templateState();
+    $('tpl-msg').textContent = stored ? 'Saved in this browser. Suggested replies updated; replies you edited by hand were kept.'
+      : 'Replies updated, but this browser does not allow saving: download the templates to keep them.';
+  }
+
+  $('tpl-group').addEventListener('change', renderTemplateFields);
+  $('tpl-save').addEventListener('click', saveTemplates);
+  $('tpl-default').addEventListener('click', () => {
+    draft = clone(T.DEFAULT_TEMPLATES);
+    renderTemplateFields();
+    renderPreview();
+    templateState();
+    $('tpl-msg').textContent = 'Default templates loaded. Save to use them.';
+  });
+  $('tpl-export').addEventListener('click', () => download('reply-templates.json', JSON.stringify(draft, null, 2) + '\n', 'application/json'));
+  $('tpl-import').addEventListener('change', async (e) => {
+    const file = e.target.files[0];
+    e.target.value = '';
+    if (!file) return;
+    try {
+      draft = T.mergeTemplates(JSON.parse(await file.text()));
+      renderTemplateFields();
+      renderPreview();
+      templateState();
+      $('tpl-msg').textContent = `${file.name} loaded. Check the preview and save to use it.`;
+    } catch (err) {
+      $('tpl-msg').textContent = `${file.name} is not a templates file (${err.message}).`;
+    }
+  });
 
   // ------------------------------------------------------------ wiring
 
@@ -353,6 +465,8 @@
   });
   $('as-of').addEventListener('change', run);
   $('team').addEventListener('change', run);
+  renderTemplateFields();
+  templateState();
   $('topic-filter').addEventListener('change', (e) => { filter.topic = e.target.value; renderChart(); renderQueue(); });
   $('search').addEventListener('input', (e) => { filter.text = e.target.value.trim(); renderQueue(); });
   $('export').addEventListener('click', () => {

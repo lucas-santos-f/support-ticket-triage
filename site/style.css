@@ -243,3 +243,24 @@ footer { margin-top: 28px; color: var(--muted); font-size: 13px; }
   .panel { padding: 14px; }
   .tile .value { font-size: 22px; }
 }
+
+/* reply templates */
+.templates summary { cursor: pointer; }
+.templates details[open] > summary { margin-bottom: 8px; }
+.templates code { font-size: 13px; background: var(--wash); border-radius: 4px; padding: 0 4px; }
+.tpl-bar { margin: 10px 0; font-size: 14px; color: var(--ink-2); }
+.tpl-grid { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 16px; align-items: start; }
+.tpl-fields { display: grid; gap: 10px; }
+.tpl-fields label { display: grid; gap: 3px; font-size: 13px; color: var(--ink-2); }
+.tpl-fields textarea { width: 100%; resize: vertical; line-height: 1.45; }
+.tpl-preview { background: var(--page); border: 1px solid var(--ring); border-radius: 8px; padding: 10px 12px; position: sticky; top: 12px; }
+.tpl-preview pre { white-space: pre-wrap; overflow-wrap: anywhere; font: 14px/1.5 inherit; font-family: inherit; margin: 6px 0 0; color: var(--ink); }
+.btn.primary { background: var(--ink); color: var(--page); border-color: var(--ink); }
+.btn.primary:hover { opacity: 0.9; background: var(--ink); }
+.file-btn { position: relative; overflow: hidden; display: inline-block; }
+.file-btn input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.reply-from { margin: 4px 0 0; }
+@media (max-width: 760px) {
+  .tpl-grid { grid-template-columns: 1fr; }
+  .tpl-preview { position: static; }
+}

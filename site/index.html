@@ -12,7 +12,9 @@
   <header>
     <h1>TicketSort</h1>
     <p class="lede">Reads tickets and reviews from a spreadsheet, sorts them by topic and urgency and drafts a reply
-      for each one. Files are read in your browser and never uploaded.</p>
+      for each one. Replies come from reply templates picked by topic and urgency, with the customer's name and order
+      number filled in; no AI is involved, and you can edit the templates below. Files are read in your browser and
+      never uploaded.</p>
   </header>
 
   <section class="panel" aria-labelledby="files-title">
@@ -66,6 +68,40 @@
       <p class="note">Pick a message in the queue.</p>
     </section>
   </div>
+
+  <section class="panel templates" aria-labelledby="tpl-title">
+    <details id="templates">
+      <summary><strong id="tpl-title">Reply templates</strong> <span class="note" id="tpl-state"></span></summary>
+      <p class="note">Each suggested reply is put together from these texts: greeting, an opening when the case is
+        urgent, the text for the topic, the response time for the urgency and the sign-off. Placeholders:
+        <code>{name}</code> first name, <code>{customer}</code> full name, <code>{order}</code> order number,
+        <code>{team}</code> who signs. Text in square brackets is left out when its placeholder is empty, and
+        <code>[a|b]</code> uses b instead. Saved templates stay in this browser.</p>
+      <div class="tpl-bar">
+        <label>Show <select id="tpl-group">
+          <option value="topics">Text by topic</option>
+          <option value="promise">Response time by urgency</option>
+          <option value="openings">Greeting, openings and sign-off</option>
+          <option value="public">Public reviews</option>
+        </select></label>
+      </div>
+      <div class="tpl-grid">
+        <div id="tpl-fields" class="tpl-fields"></div>
+        <div class="tpl-preview">
+          <strong>Preview with the selected message</strong>
+          <p class="note" id="tpl-for"></p>
+          <pre id="tpl-preview"></pre>
+        </div>
+      </div>
+      <div class="controls">
+        <button type="button" class="btn primary" id="tpl-save">Save and update replies</button>
+        <button type="button" class="btn" id="tpl-default">Back to the default templates</button>
+        <button type="button" class="btn" id="tpl-export">Download templates (.json)</button>
+        <label class="btn file-btn">Load templates (.json)<input type="file" id="tpl-import" accept=".json,application/json"></label>
+      </div>
+      <p class="note" id="tpl-msg" role="status"></p>
+    </details>
+  </section>
 
   <section class="panel" aria-labelledby="rules-title">
     <details>

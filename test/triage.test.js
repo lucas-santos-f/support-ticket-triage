@@ -164,6 +164,24 @@ test('public reviews get a short public answer', () => {
   assert.ok(!a.reply.includes('Best regards'));
 });
 
+test('fillTemplate drops a bracketed part when its placeholder is empty, or uses the fallback', () => {
+  assert.equal(T.fillTemplate('Hi[ {name}],', { name: 'Ana' }), 'Hi Ana,');
+  assert.equal(T.fillTemplate('Hi[ {name}],', { name: '' }), 'Hi,');
+  assert.equal(T.fillTemplate('cancelled [order {order}|it].', { order: '' }), 'cancelled it.');
+  assert.equal(T.fillTemplate('cancelled [order {order}|it].', { order: 'A-1234' }), 'cancelled order A-1234.');
+  assert.equal(T.fillTemplate('Hello {nmae}', { name: 'Ana' }), 'Hello {nmae}');
+});
+
+test('custom templates change the reply and missing ones fall back to the default', () => {
+  const templates = { topics: { delivery: 'Your parcel[ ({order})] is on its way.' }, promise: { high: '' }, signoff: 'Thanks,\n{team}' };
+  const merged = T.mergeTemplates(templates);
+  assert.equal(merged.topics.billing, T.DEFAULT_TEMPLATES.topics.billing);
+  assert.equal(merged.greeting, T.DEFAULT_TEMPLATES.greeting);
+  const [a] = T.triage([item({ customer: 'Grace Okafor', message: 'Order #55120 has not arrived.' })], { asOf: '2026-11-05', team: 'Help Desk', templates }).items;
+  assert.equal(a.reply, 'Hi Grace,\n\nYour parcel (55120) is on its way.\n\nThanks,\nHelp Desk');
+  assert.deepEqual(T.mergeTemplates({ topics: 'bad', greeting: 42 }), T.mergeTemplates(null));
+});
+
 test('toCSV quotes fields with commas, quotes and line breaks', () => {
   const csv = T.toCSV([{ a: 'x, "y"', b: 'one\ntwo' }], [{ label: 'a', value: (r) => r.a }, { label: 'b', value: (r) => r.b }]);
   assert.equal(csv, 'a,b\n"x, ""y""","one\ntwo"\n');

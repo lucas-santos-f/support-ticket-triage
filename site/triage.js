@@ -304,53 +304,88 @@
     return m ? m[1] : null;
   }
 
-  const PROMISE = {
-    critical: 'A team lead will contact you today.',
-    high: 'You will hear back from us within 24 hours.',
-    medium: 'We will get back to you within two business days.',
-    low: '',
+  // Replies are plain templates picked by topic and urgency; there is no AI involved.
+  // {name} first name, {customer} full name, {order} order number, {team} who signs.
+  // [text] is left out when a placeholder inside it is empty; [text|other] uses other instead.
+  const DEFAULT_TEMPLATES = {
+    greeting: 'Hi[ {name}],',
+    signoff: 'Best regards,\n{team}',
+    safety: 'Please stop using the product and unplug it now. Your safety comes first, and we take reports like this very seriously.',
+    repeat: 'I am sorry you had to contact us more than once about this. I am taking it over personally until it is solved.',
+    sorry: 'I am sorry for the trouble this has caused.',
+    topics: {
+      billing: 'I checked the charge[ on order {order}]. If you were billed more than once or for the wrong amount, the difference goes back to the original card within 3 to 5 business days, and I will send you the refund confirmation as soon as it is issued.',
+      delivery: 'I looked up the shipment[ for order {order}] and opened a trace with the carrier. If the package has not moved by tomorrow, we will ship a replacement at no cost, without waiting for the trace to close.',
+      defect: 'That is not how it should work, and I am sorry it happened. I can send a replacement right away or refund you in full[ for order {order}], whichever you prefer. A prepaid return label is on the way, and you do not need to send the item back before the replacement ships.',
+      returns: 'I have started the return[ for order {order}] and a prepaid label will reach your inbox shortly. Once the carrier scans the parcel, the refund or exchange is processed within 3 business days.',
+      account: 'I have sent a new sign-in link to the email address on your account. It is valid for 30 minutes. If it does not arrive, check the spam folder or reply here and I will update the address for you.',
+      website: 'Thank you for the details. I have passed them to our web team with your steps to reproduce it. In the meantime, the order can be placed by phone or from a different browser, and I am happy to place it for you.',
+      cancel: 'I have cancelled [order {order}|it] as you asked. If anything was already charged, the refund goes back to the original payment method within 3 to 5 business days.',
+      praise: 'Thank you for taking the time to write this. I have shared it with the team, and it made their day.',
+      request: 'Thanks for the suggestion. I have logged it with the product team, who review requests like this every month.',
+      other: 'Thank you for getting in touch. I have read your message and I am looking into it now.',
+    },
+    promise: {
+      critical: 'A team lead will contact you today.',
+      high: 'You will hear back from us within 24 hours.',
+      medium: 'We will get back to you within two business days.',
+      low: '',
+    },
+    publicOpening: 'Hi[ {name}], we are sorry to read this.',
+    publicSafety: 'Please stop using the product and unplug it.',
+    publicAsk: 'We want to put it right: please reply to our order confirmation email with your order number so we can follow up directly.',
+    publicPraise: 'Thank you[, {name}]! We are glad it worked out, and we have passed your words on to the team.',
+    publicSignoff: '— {team}',
   };
 
-  const BODY = {
-    billing: (o) => `I checked the charge${o.order ? ` on order ${o.order}` : ''}. If you were billed more than once or for the wrong amount, the difference goes back to the original card within 3 to 5 business days, and I will send you the refund confirmation as soon as it is issued.`,
-    delivery: (o) => `I looked up the shipment${o.order ? ` for order ${o.order}` : ''} and opened a trace with the carrier. If the package has not moved by tomorrow, we will ship a replacement at no cost, without waiting for the trace to close.`,
-    defect: (o) => `That is not how it should work, and I am sorry it happened. I can send a replacement right away or refund you in full${o.order ? ` for order ${o.order}` : ''}, whichever you prefer. A prepaid return label is on the way, and you do not need to send the item back before the replacement ships.`,
-    returns: (o) => `I have started the return${o.order ? ` for order ${o.order}` : ''} and a prepaid label will reach your inbox shortly. Once the carrier scans the parcel, the refund or exchange is processed within 3 business days.`,
-    account: () => 'I have sent a new sign-in link to the email address on your account. It is valid for 30 minutes. If it does not arrive, check the spam folder or reply here and I will update the address for you.',
-    website: () => 'Thank you for the details. I have passed them to our web team with your steps to reproduce it. In the meantime, the order can be placed by phone or from a different browser, and I am happy to place it for you.',
-    cancel: (o) => `I have cancelled ${o.order ? `order ${o.order}` : 'it'} as you asked. If anything was already charged, the refund goes back to the original payment method within 3 to 5 business days.`,
-    praise: () => 'Thank you for taking the time to write this. I have shared it with the team, and it made their day.',
-    request: () => 'Thanks for the suggestion. I have logged it with the product team, who review requests like this every month.',
-    other: () => 'Thank you for getting in touch. I have read your message and I am looking into it now.',
-  };
+  function fillTemplate(text, vars) {
+    const filled = (s) => !(s.match(/\{(\w+)\}/g) || []).some((p) => !vars[p.slice(1, -1)]);
+    const out = String(text == null ? '' : text).replace(/\[([^[\]]*)\]/g, (_, inner) => {
+      const bar = inner.indexOf('|');
+      const first = bar < 0 ? inner : inner.slice(0, bar);
+      const other = bar < 0 ? '' : inner.slice(bar + 1);
+      return filled(first) ? first : other;
+    });
+    return out.replace(/\{(\w+)\}/g, (m, key) => (key in vars ? String(vars[key] || '') : m));
+  }
+
+  // user templates may be partial or come from an older file: anything missing falls back to the default
+  function mergeTemplates(custom) {
+    const c = custom && typeof custom === 'object' ? custom : {};
+    const out = {};
+    for (const [k, v] of Object.entries(DEFAULT_TEMPLATES)) {
+      if (v && typeof v === 'object') {
+        out[k] = {};
+        for (const kk of Object.keys(v)) out[k][kk] = c[k] && typeof c[k][kk] === 'string' ? c[k][kk] : v[kk];
+      } else {
+        out[k] = typeof c[k] === 'string' ? c[k] : v;
+      }
+    }
+    return out;
+  }
 
   function suggestReply(item, analysis, opts) {
+    const t = mergeTemplates(opts && opts.templates);
     const team = (opts && opts.team) || 'Customer Care';
-    const name = firstName(item.customer);
-    const order = orderNumber(`${item.subject} ${item.message}`);
+    const vars = { name: firstName(item.customer), customer: String(item.customer || '').trim(), order: orderNumber(`${item.subject} ${item.message}`) || '', team };
+    const f = (text) => fillTemplate(text, vars).trim();
     const level = analysis.level;
     const topic = analysis.topic;
-    const parts = [];
+    const promise = f(t.promise[level] || '');
+    const safety = analysis.reasons.includes('safety risk');
     if (isPublic(item)) {
-      if (topic === 'praise') return `Thank you${name ? `, ${name}` : ''}! We are glad it worked out, and we have passed your words on to the team.\n— ${team}`;
-      parts.push(`Hi${name ? ` ${name}` : ''}, we are sorry to read this.`);
-      if (analysis.reasons.includes('safety risk')) parts.push('Please stop using the product and unplug it.');
-      parts.push('We want to put it right: please reply to our order confirmation email with your order number so we can follow up directly.');
-      if (PROMISE[level]) parts.push(PROMISE[level]);
-      return parts.join(' ') + `\n— ${team}`;
+      if (topic === 'praise') return `${f(t.publicPraise)}\n${f(t.publicSignoff)}`;
+      const parts = [f(t.publicOpening), safety ? f(t.publicSafety) : '', f(t.publicAsk), promise].filter(Boolean);
+      return parts.join(' ') + `\n${f(t.publicSignoff)}`;
     }
-    parts.push(`Hi${name ? ` ${name}` : ''},`);
     const lines = [];
-    if (analysis.reasons.includes('safety risk')) {
-      lines.push('Please stop using the product and unplug it now. Your safety comes first, and we take reports like this very seriously.');
-    } else if (level === 'critical' || level === 'high') {
-      lines.push(analysis.reasons.includes('repeat contact') || analysis.reasons.some((r) => /message from this customer/.test(r))
-        ? 'I am sorry you had to contact us more than once about this. I am taking it over personally until it is solved.'
-        : 'I am sorry for the trouble this has caused.');
+    if (safety) lines.push(f(t.safety));
+    else if (level === 'critical' || level === 'high') {
+      lines.push(analysis.reasons.includes('repeat contact') || analysis.reasons.some((r) => /message from this customer/.test(r)) ? f(t.repeat) : f(t.sorry));
     }
-    lines.push(BODY[topic] ? BODY[topic]({ order }) : BODY.other({ order }));
-    if (PROMISE[level]) lines.push(PROMISE[level]);
-    return `${parts[0]}\n\n${lines.join(' ')}\n\nBest regards,\n${team}`;
+    lines.push(f(t.topics[topic] != null ? t.topics[topic] : t.topics.other));
+    lines.push(promise);
+    return `${f(t.greeting)}\n\n${lines.filter(Boolean).join(' ')}\n\n${f(t.signoff)}`;
   }
 
   // ---------------------------------------------------------------- triage
@@ -407,5 +442,5 @@
     return [columns.map((c) => esc(c.label)).join(',')].concat(rows.map((r) => columns.map((c) => esc(c.value(r))).join(','))).join('\n') + '\n';
   }
 
-  return { parseCSV, readXLSX, readItems, parseDate, daysBetween, classify, urgency, suggestReply, triage, toCSV, orderNumber, TOPICS, LEVELS };
+  return { parseCSV, readXLSX, readItems, parseDate, daysBetween, classify, urgency, suggestReply, triage, toCSV, orderNumber, TOPICS, LEVELS, OTHER, DEFAULT_TEMPLATES, fillTemplate, mergeTemplates };
 });

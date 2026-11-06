@@ -51,10 +51,18 @@ Critical from 70, high from 40, medium from 15. The queue is sorted by level, th
 
 ## Replies
 
-Each draft uses the customer's first name, the order number when there is one, a paragraph for the topic and
-a response time that matches the level. Public reviews get a short public answer that moves the details to a
-private channel. Drafts can be edited on the page before copying, and the edited text goes into the CSV
-export.
+Replies are built from templates, not written by an AI model. Each draft uses the customer's first name, the
+order number when there is one, a paragraph for the topic and a response time that matches the level. Public
+reviews get a short public answer that moves the details to a private channel. Drafts can be edited on the
+page before copying, and the edited text goes into the CSV export.
+
+The templates can be changed on the page (*Reply templates*), saved in the browser, and downloaded or loaded
+as JSON to share them with the team. Placeholders: `{name}`, `{customer}`, `{order}`, `{team}`. Text in square
+brackets is dropped when its placeholder is empty, and `[a|b]` falls back to `b`:
+
+```
+I have cancelled [order {order}|it] as you asked.
+```
 
 ## Development
 
